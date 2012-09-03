@@ -1,7 +1,12 @@
-#include "ImageContoller.h"
+#include "ImageController.h"
 #include <stdio.h>
 #include <linux/fb.h>
 #include <sys/ioctl.h>
+
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/mman.h>
 
 ImageController::ImageController() {
 
@@ -38,6 +43,7 @@ Image * ImageController::getImage() {
     long int screensize = vinfo.xres * vinfo.yres * vinfo.bits_per_pixel / 8;
 
     close(fbDescriptor);
+    return new Image();
 }
 
 void ImageController::saveImage(Image * aImage) {

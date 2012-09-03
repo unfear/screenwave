@@ -1,6 +1,8 @@
 /*
  *  Obtain bitmap from linux system framebuffer and can save it to bmp-file
  * */
+#ifndef IMAGECONTROLLER_H_
+#define IMAGECONTROLLER_H_
 
 #include "Image.h"
 
@@ -14,3 +16,5 @@ public:
 private:
     Image * m_image;
 };
+
+#endif // IMAGECONTROLLER_H_
