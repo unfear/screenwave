@@ -12,13 +12,13 @@ ScreenWave: ScreenWave.o ImageController.o Image.o
 	$(CC) ScreenWave.o ImageController.o Image.o -o ScreenWave
 
 ScreenWave.o: ScreenWave.cpp
-	$(CC) $(CFLAGS) -c ScreenWave.cpp
+	$(CC) $(CFLAGS) ScreenWave.cpp
 
 ImageController.o: ImageController.cpp
-	$(CC) $(CFLAGS) -c ImageController.cpp
+	$(CC) $(CFLAGS) ImageController.cpp
 
 Image.o: Image.cpp
-	$(CC) $(CFLAGS) -c Image.cpp
+	$(CC) $(CFLAGS) Image.cpp
 
 clean:
 	rm -rf *.o ScreenWave
