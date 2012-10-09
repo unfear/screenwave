@@ -2,6 +2,7 @@
 CC=g++
 # The CFLAGS will be the options pass to the compiler.
 CFLAGS=-c -Wall
+LFLAGS=-lcairo
 #SOURCES=ScreenWave.cpp ImageController.cpp Image.cpp
 #OBJECTS=$(SOURCES:.cpp=.o)
 #EXECUTABLE=ScreenWave
@@ -9,7 +10,7 @@ CFLAGS=-c -Wall
 all: ScreenWave
 
 ScreenWave: ScreenWave.o ImageController.o Image.o
-	$(CC) ScreenWave.o ImageController.o Image.o -o ScreenWave
+	$(CC) $(LFLAGS) ScreenWave.o ImageController.o Image.o -o ScreenWave
 
 ScreenWave.o: ScreenWave.cpp
 	$(CC) $(CFLAGS) ScreenWave.cpp

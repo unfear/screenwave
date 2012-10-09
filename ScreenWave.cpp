@@ -2,6 +2,6 @@
 
 int main() {
     ImageController imageController;
-    //Image * image = imageController.getImage();
+    Image * image = imageController.getImage();
     return 0;
 }

@@ -5,6 +5,7 @@
 #define IMAGECONTROLLER_H_
 
 #include "Image.h"
+#include </usr/include/cairo/cairo.h>
 
 class ImageController {
 public: 
