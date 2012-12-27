@@ -42,10 +42,9 @@ Image * ImageController::getImage() {
     }
 
     // Figure out the size of the screen in bytes
-    long int screensize = vinfo.xres * vinfo.yres * vinfo.bits_per_pixel / 8;
 
     // TODO: create cairo surface from raw data
-    
+
     // FIXME: related to http://e2e.ti.com/support/dsp/davinci_digital_media_processors/f/100/t/8343.aspx
     /* Swap the working buffer for the displayed buffer */
     /*if (ioctl(fd, FBIOPAN_DISPLAY, &vinfo) == -1) {
@@ -53,10 +52,11 @@ Image * ImageController::getImage() {
         return NULL;
     }*/
 
-    char * data;
+    unsigned char * data;
 
-    data = (char *) mmap (NULL,
-                         vinfo.yres_virtual * finfo.line_length,
+    long int fb_screensize = vinfo.xres * vinfo.yres * vinfo.bits_per_pixel / 8;
+    data = (unsigned char *) mmap (NULL,
+                         fb_screensize,
                          PROT_READ | PROT_WRITE,
                          MAP_SHARED,
                          fd, 0);
@@ -66,14 +66,27 @@ Image * ImageController::getImage() {
         perror("Failed mmap on");
         return NULL;
     }
-    
-    cairo_format_t format = CAIRO_FORMAT_A1;
+
+    //cairo_format_t format = CAIRO_FORMAT_ARGB32;
+    cairo_format_t format = CAIRO_FORMAT_RGB16_565;
     int stride = cairo_format_stride_for_width(format, vinfo.xres);
-    cairo_surface_t * some_surface = cairo_image_surface_create_for_data ((unsigned char*)data,
+    cairo_surface_t * some_surface = cairo_image_surface_create_for_data(data,
                                                              format,
                                                              vinfo.xres,
                                                              vinfo.yres,
                                                              stride);
+
+    //cairo_surface_t *some_surface;
+    cairo_t *cr;
+    //some_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 390, 60);
+    cr = cairo_create(some_surface);
+
+    cairo_select_font_face(cr, "Sans", CAIRO_FONT_SLANT_NORMAL,
+    CAIRO_FONT_WEIGHT_NORMAL);
+    cairo_set_font_size(cr, 40.0);
+
+    cairo_move_to(cr, 10.0, 50.0);
+    cairo_show_text(cr, "Disziplin ist Macht.");
 
     cairo_status_t status = cairo_surface_write_to_png(some_surface, "/home/v-andrashko/Pictures/screen.png");
     printf("cairo status:%d\n", status);
